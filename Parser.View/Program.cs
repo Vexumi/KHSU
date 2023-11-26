@@ -1,4 +1,4 @@
-namespace KHSU.PL
+namespace Parser.View
 {
     internal static class Program
     {
@@ -11,7 +11,7 @@ namespace KHSU.PL
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new AuthForm());
+            Application.Run(new MainForm());
         }
     }
 }
