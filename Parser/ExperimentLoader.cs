@@ -1,4 +1,5 @@
 ﻿using Parser.Model;
+using System.Globalization;
 
 namespace Parser
 {
@@ -8,18 +9,27 @@ namespace Parser
         {
             var rawData = File.ReadAllText(filepath);
 
-            return rawData.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            // NOTICE: files can be empty
+            if (rawData == "") throw new Exception("Empty file");
+
+            // FIX: replacing strings like "123-456" to "123 -456"
+            rawData = System.Text.RegularExpressions.Regex.Replace(rawData, @"-+", " -");
+
+            // FIX: replacing string like "123   456" to "123 456"
+            rawData = System.Text.RegularExpressions.Regex.Replace(rawData, @"\s+", " ");
+
+            return rawData.Trim().Split(' ');
         }
 
-        public static Experiment? GetExperiment(string filepath)
+        public static dynamic GetExperiment(string filepath)
         {
             try
             {
                 return ExperimentLoader.GetData(filepath);
             }
-            catch 
+            catch (Exception e)
             {
-                return null;
+                return e.Message;
             }
         }
 
@@ -43,7 +53,7 @@ namespace Parser
             exp.AntTrigChannel = int.Parse(data[11]); // 11
             exp.LevelAnlTrig = double.Parse(data[12]); // 12
             exp.AnlTrigSlope = int.Parse(data[13]); // 13
-            exp.ScanRate = double.Parse(data[14]); // 14
+            exp.ScanRate = double.Parse(data[14], CultureInfo.InvariantCulture); // 14 // watch
             exp.DigTrigMode = int.Parse(data[15]) == 1 ? true : false; // 15
             exp.DigTrigEdge = int.Parse(data[16]); // 16
             exp.CountFramesDev = int.Parse(data[17]); // 17
@@ -77,7 +87,7 @@ namespace Parser
                 exp.Data.Add(new List<double>());
                 for (int j = 0; j < exp.CountReading; j++, index++)
                 {
-                    exp.Data[i].Add(int.Parse(data[index]));
+                    exp.Data[i].Add(double.Parse(data[index], CultureInfo.InvariantCulture)); // watch
                 }
             } // ?? - end
 

@@ -1,1 +1,3 @@
-﻿Console.WriteLine("Hello, this is KHSU!");
+﻿using Parser;
+
+var ex = ExperimentLoader.GetExperiment("\\\\iscsi\\profstud\\monichaa\\Desktop\\Мрамор\\!.999");

@@ -31,9 +31,9 @@
             ChoseFilePathButton = new Button();
             FilePathLabel = new Label();
             FilesDataGridView = new DataGridView();
+            CheckButton = new Button();
             FileName = new DataGridViewTextBoxColumn();
             Status = new DataGridViewTextBoxColumn();
-            CheckButton = new Button();
             ((System.ComponentModel.ISupportInitialize)FilesDataGridView).BeginInit();
             SuspendLayout();
             // 
@@ -72,10 +72,22 @@
             FilesDataGridView.RowTemplate.Height = 25;
             FilesDataGridView.Size = new Size(224, 177);
             FilesDataGridView.TabIndex = 2;
+            FilesDataGridView.CellClick += FilesDataGridView_CellClick;
+            // 
+            // CheckButton
+            // 
+            CheckButton.Location = new Point(12, 272);
+            CheckButton.Name = "CheckButton";
+            CheckButton.Size = new Size(75, 23);
+            CheckButton.TabIndex = 3;
+            CheckButton.Text = "Check";
+            CheckButton.UseVisualStyleBackColor = true;
+            CheckButton.Click += CheckButton_Click;
             // 
             // FileName
             // 
             FileName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            FileName.Frozen = true;
             FileName.HeaderText = "File name";
             FileName.Name = "FileName";
             FileName.ReadOnly = true;
@@ -87,17 +99,8 @@
             Status.HeaderText = "Status";
             Status.Name = "Status";
             Status.ReadOnly = true;
+            Status.Resizable = DataGridViewTriState.False;
             Status.Width = 64;
-            // 
-            // CheckButton
-            // 
-            CheckButton.Location = new Point(12, 272);
-            CheckButton.Name = "CheckButton";
-            CheckButton.Size = new Size(75, 23);
-            CheckButton.TabIndex = 3;
-            CheckButton.Text = "Check";
-            CheckButton.UseVisualStyleBackColor = true;
-            CheckButton.Click += CheckButton_Click;
             // 
             // MainForm
             // 

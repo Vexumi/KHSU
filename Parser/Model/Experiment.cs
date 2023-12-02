@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Parser.Model
+﻿namespace Parser.Model
 {
     public class Experiment
     {
@@ -29,7 +23,6 @@ namespace Parser.Model
         public List<int> FramesToRecordDev { get; set; } = new(); // Номер кадра; если кадр записан, то равен номеру кадра, если не записан, то 0;
         public List<double> TimeBuff { get; set; } = new(); // Время начала каждого записанного кадра (вещественные)
         public List<List<double>> Data { get; set; } = new(); // Значения напряжений по каналам и все это столько раз, сколько кадров записано
-
 
         public int CountReading => PreTrigScan + PostTrigScan; // Количество отсчетов в кадре;
         public int CountFrames => CountFramesDev - FramesToRecordDev.Where(x => x == 0).Count(); // Количество записанных кадров 

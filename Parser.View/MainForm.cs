@@ -1,10 +1,10 @@
-﻿using Parser.Model;
-
-namespace Parser.View
+﻿namespace Parser.View
 {
     public partial class MainForm : Form
     {
+        string path;
         string[] files;
+
         public MainForm()
         {
             InitializeComponent();
@@ -18,8 +18,12 @@ namespace Parser.View
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
+                    FilesDataGridView.Rows.Clear();
+
+                    path = fbd.SelectedPath;
                     files = Directory.GetFiles(fbd.SelectedPath);
-                    FilePathLabel.Text = $"FilePath: {fbd.SelectedPath}";
+
+                    FilePathLabel.Text = $"FilePath: {path}";
 
                     for (int i = 0; i < files.Length; i++)
                     {
@@ -34,9 +38,9 @@ namespace Parser.View
         {
             for (int i = 0; i < files.Length; i++)
             {
-                Experiment experiment = ExperimentLoader.GetExperiment(files[i]);
-                
-                if (experiment == null)
+                var experiment = ExperimentLoader.GetExperiment(files[i]);
+
+                if (experiment.GetType() == typeof(string))
                 {
                     FilesDataGridView.Rows[i].Cells[1].Value = "Failure";
                     FilesDataGridView.Rows[i].Cells[1].Style.ForeColor = Color.Red;
@@ -47,7 +51,20 @@ namespace Parser.View
                     FilesDataGridView.Rows[i].Cells[1].Style.ForeColor = Color.Green;
                 }
 
-                await Task.Delay(200);
+                await Task.Delay(500);
+            }
+        }
+
+        private void FilesDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (FilesDataGridView.CurrentCell.ColumnIndex.Equals(0))
+            {
+                var file = FilesDataGridView.CurrentCell.Value.ToString();
+
+                var experiment = ExperimentLoader.GetExperiment($"{path}\\{file}");
+
+                if (experiment.GetType() == typeof(string))
+                    MessageBox.Show(experiment);
             }
         }
     }
