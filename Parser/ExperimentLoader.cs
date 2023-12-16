@@ -43,11 +43,11 @@ namespace Parser
             exp.CountChannels = int.Parse(data[0]); // 0
             for (int i = 0; i < 4; i++)
             {
-                exp.ChannelsNumber[i] = int.Parse(data[1 + i]);
+                exp.ChannelsNumber.Add(int.Parse(data[1 + i]));
             } // 1 2 3 4
             for (int i = 0; i < 5; i++)
             {
-                exp.Coupling[i] = int.Parse(data[5 + i]);
+                exp.Coupling.Add(int.Parse(data[5 + i]));
             } // 5 6 7 8 9
             exp.AnlTrigMode = int.Parse(data[10]) == 1 ? true : false; // 10
             exp.AntTrigChannel = int.Parse(data[11]); // 11
@@ -65,9 +65,10 @@ namespace Parser
             int index = 23;
             for (int i = 0; i < 4; i++)
             {
+                exp.Graph.Add(new List<int>());
                 for (int j = 0; j < 4; j++, index++)
                 {
-                    exp.Graph[i, j] = int.Parse(data[index]);
+                    exp.Graph[i].Add(int.Parse(data[index]));
                 }
             } // 23 - 38
 

@@ -1,11 +1,13 @@
-﻿namespace Parser.Model
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Parser.Model
 {
-    public class Experiment
+    public class Experiment : BaseModel
     {
         public string Name { get; set; } // Название файла
         public int CountChannels { get; set; } // Количество используемых каналов
-        public int[] ChannelsNumber { get; set; } = new int[4]; // Номера каналов
-        public int[] Coupling { get; set; } = new int[5]; // Тип связи AC или DC
+        public List<int> ChannelsNumber { get; set; } = new(); // Номера каналов
+        public List<int> Coupling { get; set; } = new(); // Тип связи AC или DC
         public bool AnlTrigMode { get; set; } // Флаг, показывающий включение|отключение  аналогового триггера 0-вкл. 1-выкл.
         public int AntTrigChannel { get; set; } // Номер триггерного канала
         public double LevelAnlTrig { get; set; } // Уровень напряжения (в мВ) для запуска аналогового триггера
@@ -19,7 +21,7 @@
         public double PostTrigDelaySus { get; set; } // Время задержки (в мс) для триггера (вещественная)
         public int FrameToDraw { get; set; } // TYPE? Бесполезный параметр для графики
         public int CountGraph { get; set; } // Количество графиков на экране
-        public int[,] Graph { get; set; } = new int[4, 4]; // Бесполезный параметр
+        public List<List<int>> Graph { get; set; } = new(); // Бесполезный параметр
         public List<int> FramesToRecordDev { get; set; } = new(); // Номер кадра; если кадр записан, то равен номеру кадра, если не записан, то 0;
         public List<double> TimeBuff { get; set; } = new(); // Время начала каждого записанного кадра (вещественные)
         public List<List<double>> Data { get; set; } = new(); // Значения напряжений по каналам и все это столько раз, сколько кадров записано

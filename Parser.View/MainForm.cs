@@ -1,12 +1,22 @@
-﻿namespace Parser.View
+﻿using Parser.Model;
+
+namespace Parser.View
 {
     public partial class MainForm : Form
     {
-        string path;
-        string[] files;
+        private class FileStatus {
+            public static string Success = "Success";
+            public static string Error = "Error";
+        }
 
-        public MainForm()
+        private string path;
+        private string[] files;
+        private List<Experiment> experiments = new();
+        private readonly ApplicationContext _context;
+
+        public MainForm(ApplicationContext context)
         {
+            _context = context;
             InitializeComponent();
         }
 
@@ -39,20 +49,23 @@
             for (int i = 0; i < files.Length; i++)
             {
                 var experiment = ExperimentLoader.GetExperiment(files[i]);
+                experiments.Add(experiment);
 
                 if (experiment.GetType() == typeof(string))
                 {
-                    FilesDataGridView.Rows[i].Cells[1].Value = "Failure";
+                    FilesDataGridView.Rows[i].Cells[1].Value = FileStatus.Error;
                     FilesDataGridView.Rows[i].Cells[1].Style.ForeColor = Color.Red;
                 }
                 else
                 {
-                    FilesDataGridView.Rows[i].Cells[1].Value = "Success";
+                    FilesDataGridView.Rows[i].Cells[1].Value = FileStatus.Success;
                     FilesDataGridView.Rows[i].Cells[1].Style.ForeColor = Color.Green;
                 }
 
                 await Task.Delay(500);
             }
+
+            buttonSaveSuccessExperiments.Enabled = true;
         }
 
         private void FilesDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -66,6 +79,19 @@
                 if (experiment.GetType() == typeof(string))
                     MessageBox.Show(experiment);
             }
+        }
+
+        private async void buttonSaveSuccessExperiments_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < experiments.Count(); i++)
+            {
+                if (FilesDataGridView.Rows[i].Cells[1].Value == FileStatus.Success)
+                {
+                    await RepositoryHelper.SaveExperiment(_context, experiments[i]);
+                }
+            }
+
+            buttonSaveSuccessExperiments.Enabled = false;
         }
     }
 }

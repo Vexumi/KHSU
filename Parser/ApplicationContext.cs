@@ -14,10 +14,23 @@ namespace Parser
         public DbSet<Experiment> Experiments { get; set; } = null!;
         public DbSet<User> Users { get; set; }
 
-        public ApplicationContext(DbContextOptions<ApplicationContext> options)
-            : base(options)
+        private string connectionString;
+
+        public ApplicationContext(string connectionString)
         {
+            this.connectionString = connectionString;
             Database.EnsureCreated();
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(connectionString);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
         }
     }
 }
