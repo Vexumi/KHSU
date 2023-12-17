@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Parser.Model
+﻿namespace Parser.Model
 {
-    public class User: BaseModel
+    public class UserModel : BaseModel
     {
         public string Username { get; set; } = default!;
 

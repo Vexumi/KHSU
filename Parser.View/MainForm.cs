@@ -1,10 +1,12 @@
-﻿using Parser.Model;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using Parser.Model;
 
 namespace Parser.View
 {
     public partial class MainForm : Form
     {
-        private class FileStatus {
+        private class FileStatus
+        {
             public static string Success = "Success";
             public static string Error = "Error";
         }
@@ -13,14 +15,34 @@ namespace Parser.View
         private string[] files;
         private List<Experiment> experiments = new();
         private readonly ApplicationContext _context;
+        private UserModel _user;
 
-        public MainForm(ApplicationContext context)
+        public LoginForm loginForm;
+
+        public MainForm(ApplicationContext context, UserModel user)
         {
             _context = context;
+            _user = user;
             InitializeComponent();
+
+            buttonAddUser.Visible = _user.Role == UserRole.Administrator;
+            buttonSaveSuccessExperiments.Visible =
+                _user.Role == UserRole.Administrator || _user.Role == UserRole.Employee;
         }
 
-        private void ChoseFilePathButton_Click(object sender, EventArgs e)
+        private void buttonAddUser_Click(object sender, EventArgs e)
+        {
+            this.Enabled = false;
+
+            using (NewUserForm newUserForm = new NewUserForm(_context, _user))
+            {
+                newUserForm.ShowDialog();
+            }
+
+            this.Enabled = true;
+        }
+
+        private void ChooseFilePathButton_Click(object sender, EventArgs e)
         {
             using (var fbd = new FolderBrowserDialog())
             {
@@ -49,7 +71,6 @@ namespace Parser.View
             for (int i = 0; i < files.Length; i++)
             {
                 var experiment = ExperimentLoader.GetExperiment(files[i]);
-                experiments.Add(experiment);
 
                 if (experiment.GetType() == typeof(string))
                 {
@@ -60,6 +81,7 @@ namespace Parser.View
                 {
                     FilesDataGridView.Rows[i].Cells[1].Value = FileStatus.Success;
                     FilesDataGridView.Rows[i].Cells[1].Style.ForeColor = Color.Green;
+                    experiments.Add(experiment);
                 }
 
                 await Task.Delay(500);
@@ -92,6 +114,15 @@ namespace Parser.View
             }
 
             buttonSaveSuccessExperiments.Enabled = false;
+        }
+
+        private void buttonLogout_Click(object sender, EventArgs e)
+        {
+            loginForm = new LoginForm(_context);
+            loginForm.mainForm = this;
+
+            loginForm.Show();
+            this.Close();
         }
     }
 }

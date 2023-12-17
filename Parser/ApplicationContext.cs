@@ -1,24 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Parser.Model;
 
 namespace Parser
 {
-    public class ApplicationContext: DbContext
+    public class ApplicationContext : DbContext
     {
         public DbSet<Experiment> Experiments { get; set; } = null!;
-        public DbSet<User> Users { get; set; }
+        public DbSet<UserModel> Users { get; set; }
 
         private string connectionString;
 
         public ApplicationContext(string connectionString)
         {
             this.connectionString = connectionString;
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
@@ -30,7 +25,15 @@ namespace Parser
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            modelBuilder.Entity<UserModel>().HasData(
+                new UserModel
+                {
+                    Id = Guid.NewGuid(),
+                    Username = "admin",
+                    Password = "admin",
+                    Role = UserRole.Administrator
+                }
+            );
         }
     }
 }

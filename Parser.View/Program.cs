@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-
 namespace Parser.View
 {
     internal static class Program
@@ -11,7 +9,7 @@ namespace Parser.View
             var context = new ApplicationContext(connectionString);
 
             ApplicationConfiguration.Initialize();
-            Application.Run(new MainForm(context));
+            Application.Run(new LoginForm(context));
         }
     }
 }

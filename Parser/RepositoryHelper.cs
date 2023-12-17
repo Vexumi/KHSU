@@ -1,11 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Parser.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Parser
 {
@@ -29,6 +23,28 @@ namespace Parser
             }
 
             await context.SaveChangesAsync();
+        }
+
+        public async static Task AddUser(ApplicationContext context, string username, string password, string role)
+        {
+            UserModel user = new UserModel
+            {
+                Id = Guid.NewGuid(),
+                Username = username,
+                Password = password,
+                Role = role == "Administrator" ? UserRole.Administrator :
+                    role == "Employee" ? UserRole.Employee : UserRole.Auditor
+            };
+
+            context.Users.Add(user);
+            await context.SaveChangesAsync();
+        }
+
+        public async static Task<UserModel> GetUser(ApplicationContext context, string username, string password)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
+
+            return user;
         }
     }
 }

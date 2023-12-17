@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Parser.Model
 {
@@ -6,7 +6,9 @@ namespace Parser.Model
     {
         public string Name { get; set; } // Название файла
         public int CountChannels { get; set; } // Количество используемых каналов
+        [NotMapped]
         public List<int> ChannelsNumber { get; set; } = new(); // Номера каналов
+        [NotMapped]
         public List<int> Coupling { get; set; } = new(); // Тип связи AC или DC
         public bool AnlTrigMode { get; set; } // Флаг, показывающий включение|отключение  аналогового триггера 0-вкл. 1-выкл.
         public int AntTrigChannel { get; set; } // Номер триггерного канала
@@ -21,9 +23,13 @@ namespace Parser.Model
         public double PostTrigDelaySus { get; set; } // Время задержки (в мс) для триггера (вещественная)
         public int FrameToDraw { get; set; } // TYPE? Бесполезный параметр для графики
         public int CountGraph { get; set; } // Количество графиков на экране
+        [NotMapped]
         public List<List<int>> Graph { get; set; } = new(); // Бесполезный параметр
+        [NotMapped]
         public List<int> FramesToRecordDev { get; set; } = new(); // Номер кадра; если кадр записан, то равен номеру кадра, если не записан, то 0;
+        [NotMapped]
         public List<double> TimeBuff { get; set; } = new(); // Время начала каждого записанного кадра (вещественные)
+        [NotMapped]
         public List<List<double>> Data { get; set; } = new(); // Значения напряжений по каналам и все это столько раз, сколько кадров записано
 
         public int CountReading => PreTrigScan + PostTrigScan; // Количество отсчетов в кадре;

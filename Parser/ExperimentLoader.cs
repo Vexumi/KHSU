@@ -25,7 +25,7 @@ namespace Parser
         {
             try
             {
-                return ExperimentLoader.GetData(filepath);
+                return GetData(filepath);
             }
             catch (Exception e)
             {

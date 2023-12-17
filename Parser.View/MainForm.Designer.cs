@@ -35,26 +35,27 @@
             Status = new DataGridViewTextBoxColumn();
             CheckButton = new Button();
             buttonSaveSuccessExperiments = new Button();
+            buttonAddUser = new Button();
+            buttonLogout = new Button();
             ((System.ComponentModel.ISupportInitialize)FilesDataGridView).BeginInit();
             SuspendLayout();
             // 
             // ChoseFilePathButton
             // 
-            ChoseFilePathButton.Location = new Point(14, 16);
-            ChoseFilePathButton.Margin = new Padding(3, 4, 3, 4);
+            ChoseFilePathButton.Location = new Point(12, 12);
             ChoseFilePathButton.Name = "ChoseFilePathButton";
-            ChoseFilePathButton.Size = new Size(114, 67);
+            ChoseFilePathButton.Size = new Size(100, 50);
             ChoseFilePathButton.TabIndex = 0;
             ChoseFilePathButton.Text = "Choose Folder";
             ChoseFilePathButton.UseVisualStyleBackColor = true;
-            ChoseFilePathButton.Click += ChoseFilePathButton_Click;
+            ChoseFilePathButton.Click += ChooseFilePathButton_Click;
             // 
             // FilePathLabel
             // 
             FilePathLabel.AutoSize = true;
-            FilePathLabel.Location = new Point(153, 40);
+            FilePathLabel.Location = new Point(134, 30);
             FilePathLabel.Name = "FilePathLabel";
-            FilePathLabel.Size = new Size(153, 20);
+            FilePathLabel.Size = new Size(123, 15);
             FilePathLabel.TabIndex = 1;
             FilePathLabel.Text = "FilePath: not specified";
             // 
@@ -68,13 +69,12 @@
             FilesDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             FilesDataGridView.Columns.AddRange(new DataGridViewColumn[] { FileName, Status });
             FilesDataGridView.GridColor = SystemColors.Control;
-            FilesDataGridView.Location = new Point(14, 119);
-            FilesDataGridView.Margin = new Padding(3, 4, 3, 4);
+            FilesDataGridView.Location = new Point(12, 89);
             FilesDataGridView.Name = "FilesDataGridView";
             FilesDataGridView.ReadOnly = true;
             FilesDataGridView.RowHeadersWidth = 51;
             FilesDataGridView.RowTemplate.Height = 25;
-            FilesDataGridView.Size = new Size(256, 236);
+            FilesDataGridView.Size = new Size(224, 177);
             FilesDataGridView.TabIndex = 2;
             FilesDataGridView.CellClick += FilesDataGridView_CellClick;
             // 
@@ -86,7 +86,7 @@
             FileName.MinimumWidth = 6;
             FileName.Name = "FileName";
             FileName.ReadOnly = true;
-            FileName.Width = 102;
+            FileName.Width = 83;
             // 
             // Status
             // 
@@ -96,14 +96,13 @@
             Status.Name = "Status";
             Status.ReadOnly = true;
             Status.Resizable = DataGridViewTriState.False;
-            Status.Width = 78;
+            Status.Width = 64;
             // 
             // CheckButton
             // 
-            CheckButton.Location = new Point(14, 398);
-            CheckButton.Margin = new Padding(3, 4, 3, 4);
+            CheckButton.Location = new Point(12, 272);
             CheckButton.Name = "CheckButton";
-            CheckButton.Size = new Size(256, 31);
+            CheckButton.Size = new Size(224, 23);
             CheckButton.TabIndex = 3;
             CheckButton.Text = "Check";
             CheckButton.UseVisualStyleBackColor = true;
@@ -112,25 +111,52 @@
             // buttonSaveSuccessExperiments
             // 
             buttonSaveSuccessExperiments.Enabled = false;
-            buttonSaveSuccessExperiments.Location = new Point(14, 362);
+            buttonSaveSuccessExperiments.Location = new Point(12, 300);
+            buttonSaveSuccessExperiments.Margin = new Padding(3, 2, 3, 2);
             buttonSaveSuccessExperiments.Name = "buttonSaveSuccessExperiments";
-            buttonSaveSuccessExperiments.Size = new Size(256, 29);
+            buttonSaveSuccessExperiments.Size = new Size(224, 22);
             buttonSaveSuccessExperiments.TabIndex = 4;
             buttonSaveSuccessExperiments.Text = "Save success experiments";
             buttonSaveSuccessExperiments.UseVisualStyleBackColor = true;
             buttonSaveSuccessExperiments.Click += buttonSaveSuccessExperiments_Click;
             // 
+            // buttonAddUser
+            // 
+            buttonAddUser.Location = new Point(397, 12);
+            buttonAddUser.Name = "buttonAddUser";
+            buttonAddUser.Size = new Size(75, 23);
+            buttonAddUser.TabIndex = 5;
+            buttonAddUser.Text = "Add user";
+            buttonAddUser.UseVisualStyleBackColor = true;
+            buttonAddUser.Click += buttonAddUser_Click;
+            // 
+            // buttonLogout
+            // 
+            buttonLogout.BackColor = Color.Red;
+            buttonLogout.FlatAppearance.BorderColor = Color.IndianRed;
+            buttonLogout.FlatAppearance.BorderSize = 0;
+            buttonLogout.FlatStyle = FlatStyle.Popup;
+            buttonLogout.ForeColor = Color.White;
+            buttonLogout.Location = new Point(397, 298);
+            buttonLogout.Name = "buttonLogout";
+            buttonLogout.Size = new Size(75, 23);
+            buttonLogout.TabIndex = 6;
+            buttonLogout.Text = "Logout";
+            buttonLogout.UseVisualStyleBackColor = false;
+            buttonLogout.Click += buttonLogout_Click;
+            // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(553, 481);
+            ClientSize = new Size(484, 361);
+            Controls.Add(buttonLogout);
+            Controls.Add(buttonAddUser);
             Controls.Add(buttonSaveSuccessExperiments);
             Controls.Add(CheckButton);
             Controls.Add(FilesDataGridView);
             Controls.Add(FilePathLabel);
             Controls.Add(ChoseFilePathButton);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "MainForm";
             Text = "MainForm";
             ((System.ComponentModel.ISupportInitialize)FilesDataGridView).EndInit();
@@ -147,5 +173,7 @@
         private DataGridViewTextBoxColumn FileName;
         private DataGridViewTextBoxColumn Status;
         private Button buttonSaveSuccessExperiments;
+        private Button buttonAddUser;
+        private Button buttonLogout;
     }
 }
