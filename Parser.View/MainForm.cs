@@ -27,7 +27,7 @@ namespace Parser.View
 
             buttonAddUser.Visible = _user.Role == UserRole.Administrator;
             buttonSaveSuccessExperiments.Visible =
-                _user.Role == UserRole.Administrator || _user.Role == UserRole.Employee;
+                (_user.Role == UserRole.Administrator) || (_user.Role == UserRole.Employee);
         }
 
         private void buttonAddUser_Click(object sender, EventArgs e)

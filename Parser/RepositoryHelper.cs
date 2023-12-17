@@ -25,18 +25,23 @@ namespace Parser
             await context.SaveChangesAsync();
         }
 
-        public async static Task AddUser(ApplicationContext context, string username, string password, string role)
+        public async static Task AddUser(ApplicationContext context, UserModel user)
         {
-            UserModel user = new UserModel
-            {
-                Id = Guid.NewGuid(),
-                Username = username,
-                Password = password,
-                Role = role == "Administrator" ? UserRole.Administrator :
-                    role == "Employee" ? UserRole.Employee : UserRole.Auditor
-            };
+            var oldUser = await context.Users.Where(u => u.Username == user.Username).FirstOrDefaultAsync();
 
-            context.Users.Add(user);
+            if (oldUser is null) // if exeriment doesnt exist
+            {
+                context.Users.Add(user);
+
+            }
+            else // if experiment exist
+            {
+                user.Id = oldUser.Id;
+
+                context.Users.Attach(user);
+                context.Users.Entry(user).State = EntityState.Modified;
+            }
+
             await context.SaveChangesAsync();
         }
 

@@ -19,9 +19,18 @@ namespace Parser.View
         {
             username = textBoxUsername.Text;
             password = textBoxPassword.Text;
-            role = comboBoxUserRole.SelectedText;
+            role = comboBoxUserRole.Text;
 
-            await RepositoryHelper.AddUser(_context, username, password, role);
+            UserModel user = new UserModel
+            {
+                Id = Guid.NewGuid(),
+                Username = username,
+                Password = password,
+                Role = role == "Administrator" ? UserRole.Administrator :
+                    (role == "Employee" ? UserRole.Employee : UserRole.Auditor)
+            };
+
+            await RepositoryHelper.AddUser(_context, user);
 
             this.Close();
         }
